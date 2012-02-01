@@ -2,8 +2,12 @@
 
 #include "SceneLoader.h"
 
+#include <Core/ResourceManager.hpp>
+
 void Main::OnInitialize() {
-dt::Scene* scene = nullptr;
+    dt::ResourceManager::Get()->AddDataPath(QDir("D:\\"));
+    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
+    dt::Scene* scene = nullptr;
     scene = SceneLoader::LoadScene("D:\\test.scene");
     if(scene)
         AddScene(scene);
