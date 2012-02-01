@@ -1,0 +1,25 @@
+Facade game
+===============
+Facade is a 3D adventure game in the style of Myst.
+
+It's designed to be incredibly immersive, with very little in-game UI, speculative loading and a compelling storyline. Adventure games aren't mindless violence that merely hone your reflexes. A good adventure game doesn't tell a story. It shows the story. Facade is puzzle-based, but it's not just about the puzzles.
+
+For more details visit www.Facade.so
+
+Cloning
+-------
+If you clone this using the usual `git clone git://github.com/ZelconGames/Facade.git`
+please run `git submodule update --init` as the first thing you do within the 
+cloned repo.
+Alternatively, you can just clone with `git clone --recursive git://github.com/ZelconGames/Facade.git`
+and it will do that for you.
+This will get our ducttape external that is in a different git repo to keep this one
+clean and dandy.
+
+Building
+--------
+Coming Soon!
+
+Resources
+---------
+- Ducttape engine, www.ducttape-dev.org
