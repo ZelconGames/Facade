@@ -26,12 +26,14 @@ using namespace dt;
 #define SL_QY "qy"
 #define SL_QZ "qz"
 #define SL_SCALE "scale"
-#define SL_MESH "entity"
+#define SL_MESH "node"
 #define SL_MESH_HANDLE "meshFile"
 #define SL_CAST_SHADOWS "castShadows"
 #define SL_MATERIAL "materialName"
 #define SL_CAMERA "camera"
 #define SL_LIGHT "light"
+#define SL_DIRECTION "directionVector"
+#define SL_ENTITY "entity"
 
 class SceneLoader 
 {
@@ -44,7 +46,11 @@ public:
     static Scene* LoadScene(string path);
 
 protected:
-    static void _LoadNode(Scene* scene, const xml_node& node);
+    static void _LoadMesh(Scene* scene, const xml_node& node);
+
+    static void _LoadLight(Scene* scene, const xml_node& node);
+
+    static void _LoadCamera(Scene* scene, const xml_node& node);
 };
 
 #endif

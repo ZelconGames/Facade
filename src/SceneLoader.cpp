@@ -13,30 +13,74 @@ Scene* SceneLoader::LoadScene(string path)
     if(result)
     {
         scene = new Scene(path.c_str());
-        xml_node nodes = doc.child(SL_SCENE).child(SL_NODES);
+        xml_node root = doc.child(SL_SCENE);
 
-        if(!nodes)
-            return scene;
-
-        for(xml_node node = nodes.first_child(); node; node = node.next_sibling())
+        for(xml_node node = root.first_child(); node; node = node.next_sibling())
         {
-            _LoadNode(scene, node);
+            if(strcmp(node.name(), SL_CAMERA) == 0)
+            {
+                _LoadCamera(scene, node);
+            }
+            else if(strcmp(node.name(), SL_NODES) == 0)
+            {
+                for(xml_node mesh_node = node.first_child(); mesh_node; mesh_node = mesh_node.next_sibling())
+                {
+                    _LoadMesh(scene, mesh_node);
+                }
+            }
+            else if(strcmp(node.name(), SL_LIGHT) == 0)
+            {
+                _LoadLight(scene, node);
+            }
         }
     }
 
     return scene;
 }
 
-void SceneLoader::_LoadNode(Scene* scene, const xml_node& node)
+void SceneLoader::_LoadCamera(Scene* scene, const xml_node& node)
 {
-    if(node)
+    if(node && scene)
+    {
+        Node* dt_node = scene->AddChildNode(new Node(node.attribute(SL_NAME).value()));
+        dt_node->AddComponent<CameraComponent>(new CameraComponent(node.attribute(SL_NAME).value()));
+        xml_node pos = node.child(SL_POS);
+        xml_node rot = node.child(SL_ROT);
+
+        dt_node->SetPosition(pos.attribute(SL_X).as_float(), pos.attribute(SL_Y).as_float(),
+            pos.attribute(SL_Z).as_float());
+        dt_node->SetRotation(Ogre::Quaternion(rot.attribute(SL_QW).as_float(), 
+            rot.attribute(SL_QX).as_float(), rot.attribute(SL_QY).as_float(), rot.attribute(SL_QZ).as_float()));
+    }
+}
+
+void SceneLoader::_LoadLight(Scene* scene, const xml_node& node)
+{
+    if(node && scene)
+    {
+        Node* dt_node = scene->AddChildNode(new Node(node.attribute(SL_NAME).value()));
+        dt_node->AddComponent<LightComponent>(new LightComponent(node.attribute(SL_NAME).value()))->SetCastShadows(
+            node.attribute(SL_CAST_SHADOWS).as_bool());
+        xml_node pos = node.child(SL_POS);
+        xml_node dir = node.child(SL_DIRECTION);
+
+        dt_node->SetPosition(pos.attribute(SL_X).as_float(), pos.attribute(SL_Y).as_float(),
+            pos.attribute(SL_Z).as_float());
+        dt_node->SetDirection(Ogre::Vector3(dir.attribute(SL_X).as_float(), dir.attribute(SL_Y).as_float(),
+            dir.attribute(SL_Z).as_float()));
+    }
+}
+
+void SceneLoader::_LoadMesh(Scene* scene, const xml_node& node)
+{
+    if(node && scene)
     {
         Node* dt_node = scene->AddChildNode(new Node(node.attribute(SL_NAME).value()));
         xml_node pos = node.child(SL_POS);
         xml_node rot = node.child(SL_ROT);
         xml_node scale = node.child(SL_SCALE);
+        xml_node entity = node.child(SL_ENTITY);
 
-        //Set the node's position, rotation and scale.
         dt_node->SetPosition(pos.attribute(SL_X).as_float(), pos.attribute(SL_Y).as_float(),
             pos.attribute(SL_Z).as_float());
         dt_node->SetRotation(Ogre::Quaternion(rot.attribute(SL_QW).as_float(), 
@@ -44,29 +88,10 @@ void SceneLoader::_LoadNode(Scene* scene, const xml_node& node)
         dt_node->SetScale(Ogre::Vector3(scale.attribute(SL_X).as_float(), scale.attribute(SL_Y).as_float(),
             scale.attribute(SL_Z).as_float()));
 
-        //Add components to the node.
-        for(xml_node component = scale.next_sibling(); component; component = component.next_sibling())
-        {
-            if(strcmp(component.name(), SL_CAMERA) == 0)
-            {
-                CameraComponent* cam = dt_node->AddComponent<CameraComponent>(new CameraComponent(
-                    component.attribute(SL_NAME).value()));
-            }
-            else if(strcmp(component.name(), SL_MESH) == 0)
-            {
-                MeshComponent* mesh = dt_node->AddComponent<MeshComponent>(new MeshComponent(
-                    component.attribute(SL_MESH_HANDLE).value(), component.first_child().attribute(SL_MATERIAL).value(),
-                    component.attribute(SL_NAME).value()));
+        MeshComponent* mesh = dt_node->AddComponent<MeshComponent>(new MeshComponent(
+            entity.attribute(SL_MESH_HANDLE).value(), entity.first_child().attribute(SL_MATERIAL).value(),
+            entity.attribute(SL_NAME).value()));
 
-                mesh->SetCastShadows(component.attribute(SL_CAST_SHADOWS).as_bool());
-            }
-            else if(strcmp(component.name(), SL_LIGHT) == 0)
-            {
-                LightComponent* light = dt_node->AddComponent<LightComponent>(new LightComponent(
-                    component.attribute(SL_NAME).value()));
-
-                light->SetCastShadows(component.attribute(SL_CAST_SHADOWS).as_bool());
-            }
-        }
+        mesh->SetCastShadows(entity.attribute(SL_CAST_SHADOWS).as_bool());
     }
 }
