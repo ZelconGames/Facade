@@ -35,7 +35,7 @@ include_directories(src/ ${ducttape-includes})
 
 file(GLOB_RECURSE facade_SOURCES src/*.cpp)
 
-file(GLOB_RECURSE facade_HEADERS src/*.hpp)
+file(GLOB_RECURSE facade_HEADERS src/*.h)
 qt4_wrap_cpp(facade_HEADERS_MOC ${facade_HEADERS})
 
 add_executable(facade ${facade_SOURCES} ${facade_HEADERS_MOC})
