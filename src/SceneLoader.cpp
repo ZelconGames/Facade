@@ -89,8 +89,16 @@ void SceneLoader::_LoadMesh(Scene* scene, const xml_node& node)
             scale.attribute(SL_Z).as_float()));
 
         MeshComponent* mesh = dt_node->AddComponent<MeshComponent>(new MeshComponent(
-            entity.attribute(SL_MESH_HANDLE).value(), entity.first_child().attribute(SL_MATERIAL).value(),
+            entity.attribute(SL_MESH_HANDLE).value(), "",
             entity.attribute(SL_NAME).value()));
+
+        for(xml_node mat = entity.first_child(); mat; mat = mat.next_sibling())
+        {
+            auto material_handle = mat.attribute(SL_MATERIAL).value();
+            //
+            // Todo: Add the material loading logic here. Just fill it!!!!
+            //
+        }
 
         mesh->SetCastShadows(entity.attribute(SL_CAST_SHADOWS).as_bool());
     }
