@@ -1,14 +1,30 @@
-#ifndef SCENE_LOADER_TEST_H
-#define SCENE_LOADER_TEST_H
+#ifndef MAIN_MENU_STATE_H
+#define MAIN_MENU_STATE_H
 #pragma once
 
 #include <Scene/State.hpp>
+#include <Gui/GuiButton.hpp>
 
-class Main : public dt::State {
+#include <memory>
+
+using namespace dt;
+using namespace std;
+
+class MainMenuState : public State
+{
     Q_OBJECT
 public:
     void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    
+    void UpdateStateFrame(double simulationFrameTime);
+
+    void OnOptionClick(MyGUI::Widget* sender);
+
+    void OnSelectLevelClick(MyGUI::Widget* sender);
+
+private:
+    shared_ptr<GuiButton> mOptionButton;
+    shared_ptr<GuiButton> mSelectLevelButton;
 };
 
 #endif
