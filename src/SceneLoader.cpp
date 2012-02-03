@@ -4,6 +4,8 @@
 #include "Graphics/MeshComponent.hpp"
 #include "Graphics/LightComponent.hpp"
 
+#include <OGRE/OgreSubEntity.h>
+
 Scene* SceneLoader::LoadScene(string path)
 {
     Scene* scene = nullptr;
@@ -95,9 +97,9 @@ void SceneLoader::_LoadMesh(Scene* scene, const xml_node& node)
         for(xml_node mat = entity.first_child(); mat; mat = mat.next_sibling())
         {
             auto material_handle = mat.attribute(SL_MATERIAL).value();
-            //
-            // Todo: Add the material loading logic here. Just fill it!!!!
-            //
+            auto index = mat.attribute(SL_INDEX).as_uint();
+
+            mesh->GetOgreEntity()->getSubEntity(index)->setMaterialName(material_handle);
         }
 
         mesh->SetCastShadows(entity.attribute(SL_CAST_SHADOWS).as_bool());
