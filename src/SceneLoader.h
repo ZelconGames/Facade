@@ -34,6 +34,7 @@ using namespace dt;
 #define SL_LIGHT "light"
 #define SL_DIRECTION "directionVector"
 #define SL_ENTITY "entity"
+#define SL_INDEX "index"
 
 class SceneLoader 
 {
