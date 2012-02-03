@@ -1,4 +1,4 @@
-#include "SceneLoaderTest.h"
+#include "MainMenuScene.h"
 
 #include <Scene/Game.hpp>
 
