@@ -5,12 +5,12 @@
 #include <Core/ResourceManager.hpp>
 
 void Main::OnInitialize() {
-    dt::ResourceManager::Get()->AddDataPath(QDir("D:\\"));
+    dt::ResourceManager::Get()->AddDataPath(QDir("C:\\users\\EnterUserNameHere\\Facade\\bin\\debug\\data\\"));
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     dt::Scene* scene = nullptr;
-    scene = SceneLoader::LoadScene("D:\\test.scene");
+    scene = SceneLoader::LoadScene("C:\\users\\EnterUserNameHere\\Facade\\bin\\debug\\data\\test.scene");
     if(scene)
         AddScene(scene);
 }
