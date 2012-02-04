@@ -7,8 +7,21 @@
 #include <Gui/GuiManager.hpp>
 #include <Graphics/CameraComponent.hpp>
 
+#include <QCoreApplication>
+
 void MainMenuState::OnInitialize()
 {
+    {
+        QDir dir(QCoreApplication::applicationDirPath());
+        while(!dir.isRoot()) {
+            QDir data(dir.absolutePath() + "/externals/ducttape-engine/data");
+            if(data.exists()) {
+                ResourceManager::Get()->AddDataPath(data);
+                break;
+            }
+            dir.cdUp();
+        }
+    }
     ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
     ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
 
