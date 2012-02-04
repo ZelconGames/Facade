@@ -14,16 +14,17 @@ void MainMenuState::OnInitialize()
     {
         QDir dir(QCoreApplication::applicationDirPath());
         while(!dir.isRoot()) {
-            QDir data(dir.absolutePath() + "/externals/ducttape-engine/data");
+            QDir data(dir.absolutePath() + "/externals/ducttape-engine");
             if(data.exists()) {
                 ResourceManager::Get()->AddDataPath(data);
+
                 break;
             }
             dir.cdUp();
         }
     }
-    ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
-    ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
+    ResourceManager::Get()->AddResourceLocation("data/gui","FileSystem", true);
+    ResourceManager::Get()->AddResourceLocation("data", "FileSystem", true);
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
