@@ -121,9 +121,9 @@ void SceneLoader::_LoadMesh(Scene* scene, const xml_node& node)
                 .setEnableNormals(plane.attribute(SL_ENABLENORMALS).as_bool())
                 .setNumSegX(plane.attribute(SL_SEGMENTSX).as_int())
                 .setNumSegY(plane.attribute(SL_SEGMENTSY).as_int())
-                .setNumTexCoordSet(plane.attribute(SL_NUMTEXCOORD).as_int())
-                .setUTile(plane.attribute(SL_UTILE).as_float())
-                .setVTile(plane.attribute(SL_VTILE).as_float())
+                //.setNumTexCoordSet(plane.attribute(SL_NUMTEXCOORD).as_int())
+               // .setUTile(plane.attribute(SL_UTILE).as_float())
+                //.setVTile(plane.attribute(SL_VTILE).as_float())
                 .setNormal(Ogre::Vector3( plane.child(SL_NORMAL).attribute(SL_X).as_float(),
                                           plane.child(SL_NORMAL).attribute(SL_Y).as_float(),
                                           plane.child(SL_NORMAL).attribute(SL_Z).as_float() ))
