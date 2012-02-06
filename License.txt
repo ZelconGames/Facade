@@ -1,6 +1,6 @@
 Sound, music and artwork are licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
 
-Code is licensed under the GNU GPL v3. (full text below)
+Code is licensed under the GNU GPL v3. (full text is below)
 
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
