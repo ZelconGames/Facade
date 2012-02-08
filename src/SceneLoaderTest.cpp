@@ -4,7 +4,8 @@
 
 #include <Core/ResourceManager.hpp>
 
-void Main::OnInitialize() {
+void Main::OnInitialize() 
+{
     dt::ResourceManager::Get()->AddDataPath(QDir("C:\\users\\EnterUserNameHere\\Facade\\bin\\debug\\data\\"));
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -15,5 +16,6 @@ void Main::OnInitialize() {
         AddScene(scene);
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::UpdateStateFrame(double simulation_frame_time) 
+{
 }
