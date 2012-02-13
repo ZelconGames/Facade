@@ -2,14 +2,14 @@
 #define SCENE_LOADER_H
 #pragma once
 
-#include "3rdParty/pugixml/pugixml.hpp"
 
 #include <Scene/Scene.hpp>
 #include <Scene/Node.hpp>
 
 #include <string>
 
-using namespace pugi;
+#include <QtXml/QtXml>
+
 using namespace std;
 using namespace dt;
 
@@ -54,14 +54,14 @@ public:
       * @param path The path to the scene.
       * @returns A pointer to the scene or null when it fails.
       */
-    static Scene* LoadScene(string path);
+    static Scene* LoadScene(QString path);
 
 protected:
-    static void _LoadMesh(Scene* scene, const xml_node& node);
+    static void _LoadMesh(Scene* scene, const QDomElement& node);
 
-    static void _LoadLight(Scene* scene, const xml_node& node);
+    static void _LoadLight(Scene* scene, const QDomElement& node);
 
-    static void _LoadCamera(Scene* scene, const xml_node& node);
+    static void _LoadCamera(Scene* scene, const QDomElement& node);
 };
 
 #endif
