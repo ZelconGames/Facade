@@ -1,3 +1,3 @@
 [submodule "externals/ducttape-engine"]
 	path = externals/ducttape-engine
-	url = git://github.com/ducttape/ducttape-engine.git
+	url = git://github.com/EternalWind/ducttape-engine.git
