@@ -26,7 +26,7 @@ using namespace dt;
 #define SL_QY "qy"
 #define SL_QZ "qz"
 #define SL_SCALE "scale"
-#define SL_MESH "node"
+#define SL_NODE "node"
 #define SL_MESH_HANDLE "meshFile"
 #define SL_CAST_SHADOWS "castShadows"
 #define SL_MATERIALNAME "materialName"
@@ -45,6 +45,8 @@ using namespace dt;
 #define SL_NUMTEXCOORD "numTexCoordSets"
 #define SL_UTILE "uTile"
 #define SL_VTILE "vTile"
+#define SL_INDEX "index"
+#define SL_BEGIN "terrain"
 
 class SceneLoader 
 {
@@ -57,11 +59,17 @@ public:
     static Scene* LoadScene(string path);
 
 protected:
-    static void _LoadMesh(Scene* scene, const xml_node& node);
+    static Node* _LoadElement(const xml_node& og_element, Node* dt_node = nullptr);
 
-    static void _LoadLight(Scene* scene, const xml_node& node);
+    static Node* _LoadNode(const xml_node& og_node, Node* dt_parent);
 
-    static void _LoadCamera(Scene* scene, const xml_node& node);
+    static Node* _LoadMesh(const xml_node& og_component, Node* dt_node);
+
+    static Node* _LoadLight(const xml_node& og_component, Node* dt_node);
+     
+    static Node* _LoadCamera(const xml_node& og_component, Node* dt_node);
+
+    static Scene* mScene;
 };
 
 #endif
