@@ -4,11 +4,17 @@
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/TextComponent.hpp>
 #include <Gui/GuiManager.hpp>
+#include <Core/ResourceManager.hpp>
 
 #include <OgreFontManager.h>
 
 void OptionState::OnInitialize()
 {
+    ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
+    ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
+
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
     Scene* scene = AddScene(new Scene("Option"));
 
     Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
@@ -28,14 +34,15 @@ void OptionState::OnInitialize()
     text1->SetFontSize(72);
     text1->SetPadding(Ogre::Vector2(20, 20));
 
-    /*GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
-    mReturnButton = shared_ptr<GuiButton>(rootWindow.CreateChild<GuiButton>("return"));
+    GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
+    mReturnButton = rootWindow.CreateChild<GuiButton>("return");
 
     mReturnButton->SetPosition(100, 100);
     mReturnButton->SetSize(250, 100);
     mReturnButton->SetCaption("Return");
+    mReturnButton->SetVisible(true);
     dynamic_cast<MyGUI::Button*>(mReturnButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &OptionState::OnReturnClick);*/
+        += MyGUI::newDelegate(this, &OptionState::OnReturnClick);
     //************************************************************
 }
 

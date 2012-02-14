@@ -28,14 +28,14 @@ void SelectLevelState::OnInitialize()
     text1->SetFontSize(72);
     text1->SetPadding(Ogre::Vector2(20, 20));
 
-    /*GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
-    mReturnButton = shared_ptr<GuiButton>(rootWindow.CreateChild<GuiButton>("return"));
+    GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
+    mReturnButton = rootWindow.CreateChild<GuiButton>("return");
 
     mReturnButton->SetPosition(100, 100);
     mReturnButton->SetSize(250, 100);
     mReturnButton->SetCaption("Return");
     dynamic_cast<MyGUI::Button*>(mReturnButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &SelectLevelState::OnReturnClick);*/
+        += MyGUI::newDelegate(this, &SelectLevelState::OnReturnClick);
     //************************************************************
 }
 
