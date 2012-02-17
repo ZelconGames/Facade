@@ -1,4 +1,4 @@
-#include "MainMenuState.h"
+#include "SceneLoaderTest.h"
 #include "StateSelector.h"
 
 #include <Scene/Game.hpp>
@@ -6,11 +6,12 @@
 
 using namespace dt;
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
     Game game;
     StateSelector::Initialize();
     
-    game.Run(new MainMenuState(), argc, argv);
+    game.Run(new Main(), argc, argv);
 
     return 0;
 }
