@@ -47,6 +47,8 @@ using namespace dt;
 #define SL_VTILE "vTile"
 #define SL_INDEX "index"
 #define SL_BEGIN "terrain"
+#define SL_SOUND "sound"
+#define SL_SOUNDNAME "SoundFile"
 
 class SceneLoader 
 {
@@ -66,6 +68,8 @@ protected:
     static Node* _LoadMesh(const xml_node& og_component, Node* dt_node);
 
     static Node* _LoadLight(const xml_node& og_component, Node* dt_node);
+
+    static Node* _LoadSound(const xml_node& og_component, Node* dt_node);
      
     static Node* _LoadCamera(const xml_node& og_component, Node* dt_node);
 
