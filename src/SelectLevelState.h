@@ -21,7 +21,7 @@ public:
     void OnReturnClick(MyGUI::Widget* sender);
 
 private:
-    shared_ptr<GuiButton> mReturnButton;
+    GuiButton* mReturnButton;
 };
 
 #endif

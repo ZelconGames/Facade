@@ -23,8 +23,8 @@ public:
     void OnSelectLevelClick(MyGUI::Widget* sender);
 
 private:
-    shared_ptr<GuiButton> mOptionButton;
-    shared_ptr<GuiButton> mSelectLevelButton;
+    GuiButton* mOptionButton;
+    GuiButton* mSelectLevelButton;
 };
 
 #endif

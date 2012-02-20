@@ -5,6 +5,7 @@
 #include <Core/ResourceManager.hpp>
 #include <Scene/StateManager.hpp>
 #include <Gui/GuiManager.hpp>
+#include <Gui/GuiRootWindow.hpp>
 #include <Graphics/CameraComponent.hpp>
 
 #include <QCoreApplication>
@@ -30,6 +31,8 @@ void MainMenuState::OnInitialize()
 
     Scene* scene = AddScene(new Scene("MainMenu"));
 
+    GuiManager::Get()->SetSceneManager(scene->GetSceneManager());
+
     Node* camnode = scene->AddChildNode(new Node("camnode"));
     camnode->SetPosition(Ogre::Vector3(0, 5, 10));
     camnode->AddComponent(new CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
@@ -39,14 +42,14 @@ void MainMenuState::OnInitialize()
     //********************************************************************************
     //The following lines are for test purpose only.
     //Todo: Refine them for actual use.
-    mOptionButton = shared_ptr<GuiButton>(rootWindow.CreateChild<GuiButton>("option"));
+    mOptionButton = rootWindow.CreateChild<GuiButton>("option");
     mOptionButton->SetCaption("Option");
     mOptionButton->SetSize(250, 100);
     mOptionButton->SetPosition(100, 100);
     dynamic_cast<MyGUI::Button*>(mOptionButton->GetMyGUIWidget())->eventMouseButtonClick
         += MyGUI::newDelegate(this, &MainMenuState::OnOptionClick);
-
-    mSelectLevelButton = shared_ptr<GuiButton>(rootWindow.CreateChild<GuiButton>("select_level"));
+    
+    mSelectLevelButton = rootWindow.CreateChild<GuiButton>("select_level");
     mSelectLevelButton->SetCaption("Select Level");
     mSelectLevelButton->SetSize(250, 100);
     mSelectLevelButton->SetPosition(100, 220);
