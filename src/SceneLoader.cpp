@@ -172,7 +172,8 @@ Node* SceneLoader::_LoadSound(const xml_node& og_component, Node* dt_node)
                 pos.attribute(SL_Z).as_float());
         }
 
-        node->AddComponent<SoundComponent>(new SoundComponent(name))->SetSoundFileName(og_component.attribute(SL_SOUNDNAME).value());
+        SoundComponent* s = node->AddComponent<SoundComponent>(new SoundComponent(og_component.attribute(SL_SOUNDNAME).value(), name));
+        s->SetVolume(og_component.attribute(SL_SOUNDVOL).as_float());
     }
 
     return node;

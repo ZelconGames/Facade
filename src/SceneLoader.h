@@ -48,7 +48,8 @@ using namespace dt;
 #define SL_INDEX "index"
 #define SL_BEGIN "terrain"
 #define SL_SOUND "sound"
-#define SL_SOUNDNAME "SoundFile"
+#define SL_SOUNDNAME "soundFile"
+#define SL_SOUNDVOL "volume"
 
 class SceneLoader 
 {

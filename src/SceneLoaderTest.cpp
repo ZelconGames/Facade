@@ -10,7 +10,7 @@ void Main::OnInitialize()
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     dt::Scene* scene = nullptr;
-    scene = SceneLoader::LoadScene("C:\\my\\facade\\cylonspy\\build\\exp.scene");
+    scene = SceneLoader::LoadScene("test.scene");
     if(scene)
         AddScene(scene);
 }
