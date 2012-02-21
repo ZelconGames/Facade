@@ -3,6 +3,7 @@
 #include "Graphics/CameraComponent.hpp"
 #include "Graphics/MeshComponent.hpp"
 #include "Graphics/LightComponent.hpp"
+#include "Audio/SoundComponent.hpp"
 
 #include <OgreProcedural.h>
 #include <OGRE/OgreSubEntity.h>
@@ -56,6 +57,8 @@ Node* SceneLoader::_LoadElement(const xml_node& og_element, Node* dt_node)
         node = _LoadLight(og_element, dt_node);                   //Light
     else if(strcmp(name, SL_CAMERA) == 0)
         node = _LoadCamera(og_element, dt_node);                  //Camera
+    else if(strcmp(name, SL_SOUND) == 0)
+        node = _LoadSound(og_element, dt_node);                   //Sound
     else if(strcmp(name, SL_NODE) == 0)
         if(og_element.child(SL_ENTITY).empty() && og_element.child(SL_PLANE).empty())
             node = _LoadNode(og_element, dt_node);                //Node
@@ -146,6 +149,31 @@ Node* SceneLoader::_LoadLight(const xml_node& og_component, Node* dt_node)
 
             node->AddComponent<LightComponent>(new LightComponent(name))->SetCastShadows(
                 og_component.attribute(SL_CAST_SHADOWS).as_bool());
+    }
+
+    return node;
+}
+
+Node* SceneLoader::_LoadSound(const xml_node& og_component, Node* dt_node)
+{
+    Node* node = dt_node;
+
+    if(og_component)
+    {
+        QString name = og_component.attribute(SL_NAME).value();
+
+        if(node == nullptr)
+        {
+            node = mScene->AddChildNode(new Node(name + "_node"));
+
+            xml_node pos = og_component.child(SL_POS);
+
+            node->SetPosition(pos.attribute(SL_X).as_float(), pos.attribute(SL_Y).as_float(),
+                pos.attribute(SL_Z).as_float());
+        }
+
+        SoundComponent* s = node->AddComponent<SoundComponent>(new SoundComponent(og_component.attribute(SL_SOUNDNAME).value(), name));
+        s->SetVolume(og_component.attribute(SL_SOUNDVOL).as_float());
     }
 
     return node;
