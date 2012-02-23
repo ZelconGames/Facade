@@ -9,6 +9,10 @@ class Main : public dt::State {
 public:
     void OnInitialize();
     void UpdateStateFrame(double simulation_frame_time);
+    void SetFile(std::string file);
+
+private:
+    std::string scenefile;
 };
 
 #endif
