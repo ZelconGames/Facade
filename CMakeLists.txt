@@ -16,6 +16,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/externals/ducttape-engine/cmake-extra
 # Qt4 stuff
 set(QT_USE_QTSCRIPT TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
+set(QT_USE_QTXML TRUE)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITONS})
@@ -40,4 +41,4 @@ qt4_wrap_cpp(facade_HEADERS_MOC ${facade_HEADERS})
 
 add_executable(facade ${facade_SOURCES} ${facade_HEADERS_MOC})
 
-target_link_libraries(facade ducttape)
+target_link_libraries(facade ${QT_LIBRARIES} ducttape)
