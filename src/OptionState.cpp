@@ -35,7 +35,7 @@ void OptionState::OnInitialize()
     text1->SetPadding(Ogre::Vector2(20, 20));
 
     GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
-    mReturnButton = rootWindow.CreateChild<GuiButton>("return");
+    mReturnButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("return"));
 
     mReturnButton->SetPosition(100, 100);
     mReturnButton->SetSize(250, 100);
