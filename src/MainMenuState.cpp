@@ -42,14 +42,14 @@ void MainMenuState::OnInitialize()
     //********************************************************************************
     //The following lines are for test purpose only.
     //Todo: Refine them for actual use.
-    mOptionButton = rootWindow.CreateChild<GuiButton>("option");
+    mOptionButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("option"));
     mOptionButton->SetCaption("Option");
     mOptionButton->SetSize(250, 100);
     mOptionButton->SetPosition(100, 100);
     dynamic_cast<MyGUI::Button*>(mOptionButton->GetMyGUIWidget())->eventMouseButtonClick
         += MyGUI::newDelegate(this, &MainMenuState::OnOptionClick);
     
-    mSelectLevelButton = rootWindow.CreateChild<GuiButton>("select_level");
+    mSelectLevelButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("select_level"));
     mSelectLevelButton->SetCaption("Select Level");
     mSelectLevelButton->SetSize(250, 100);
     mSelectLevelButton->SetPosition(100, 220);
