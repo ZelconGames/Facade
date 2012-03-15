@@ -19,10 +19,10 @@ public:
         RIGHTWARD,
         JUMP,
         DUCK,
-        ACTIVATE,
         RECALL_NANO,
         RELEASE_NANO,
-        ZOOM
+        ZOOM,
+        ACTIVATE
     };
 
     KeySettings();
@@ -31,8 +31,14 @@ public:
 
     InputManager::InputCode GetKey(Function function) const;
 
+    QString GetName(Function function) const;
+
+    Function Begin() const;
+
+    Function End() const;
+
 private:
-    map<Function, InputManager::InputCode> mKeyMap;
+    map<Function, pair<QString, InputManager::InputCode>> mKeyMap;
 };
 
 #endif
