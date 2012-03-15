@@ -10,7 +10,6 @@ using namespace dt;
 int main(int argc, char** argv) 
 {
     Game game;
-    StateSelector::Initialize();
     Main* main = new Main();
     if (argc > 1) {
         main->SetFile(argv[1]);

@@ -16,9 +16,7 @@ public:
 
     ~StateSelector();
 
-    static void Initialize();
-
-    static std::shared_ptr<StateSelector> GetInstance();
+    static StateSelector* GetInstance();
 
     bool Select(const StateCode& state_code);
 

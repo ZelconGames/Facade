@@ -6,7 +6,7 @@
 #include <Scene/State.hpp>
 #include <Scene/StateManager.hpp>
 
-std::shared_ptr<StateSelector> StateSelector::mInstance = std::shared_ptr<StateSelector>(nullptr);
+std::shared_ptr<StateSelector> StateSelector::mInstance = std::shared_ptr<StateSelector>(new StateSelector());
 
 StateSelector::StateSelector()
 {
@@ -16,17 +16,9 @@ StateSelector::~StateSelector()
 {
 }
 
-void StateSelector::Initialize()
+StateSelector* StateSelector::GetInstance()
 {
-    if(mInstance.get() == nullptr)
-    {
-        mInstance = std::shared_ptr<StateSelector>(new StateSelector());
-    }
-}
-
-std::shared_ptr<StateSelector> StateSelector::GetInstance()
-{
-    return mInstance;
+    return mInstance.get();
 }
 
 bool StateSelector::Select(const StateCode& state_code)

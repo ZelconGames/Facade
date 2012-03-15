@@ -29,6 +29,7 @@ private slots:
     void _HandleMouseMove(const OIS::MouseEvent& event);
 
 private:
+    Ogre::Vector3 mMove;
     bool mMouseYInversed;
     float mMouseSensitivity;
 };
