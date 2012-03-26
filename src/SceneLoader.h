@@ -59,15 +59,15 @@ public:
     static Scene* LoadScene(QString path);
 
 protected:
-    static Node* _LoadElement(const QDomElement& og_element, Node* dt_node = nullptr);
+    static Node::NodeSP _LoadElement(const QDomElement& og_element, Node::NodeSP dt_node = nullptr);
 
-    static Node* _LoadNode(const QDomElement& og_node, Node* dt_parent);
+    static Node::NodeSP _LoadNode(const QDomElement& og_node, Node::NodeSP dt_parent);
 
-    static Node* _LoadMesh(const QDomElement& og_component, Node* dt_node);
+    static Node::NodeSP _LoadMesh(const QDomElement& og_component, Node::NodeSP dt_node);
 
-    static Node* _LoadLight(const QDomElement& og_component, Node* dt_node);
+    static Node::NodeSP _LoadLight(const QDomElement& og_component, Node::NodeSP dt_node);
      
-    static Node* _LoadCamera(const QDomElement& og_component, Node* dt_node);
+    static Node::NodeSP _LoadCamera(const QDomElement& og_component, Node::NodeSP dt_node);
 
     static Scene* mScene;
 };

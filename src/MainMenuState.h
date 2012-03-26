@@ -14,17 +14,17 @@ class MainMenuState : public State
 {
     Q_OBJECT
 public:
-    void OnInitialize();
+    void onInitialize();
     
-    void UpdateStateFrame(double simulationFrameTime);
+    void updateStateFrame(double simulationFrameTime);
 
-    void OnOptionClick(MyGUI::Widget* sender);
+    void onOptionClick(MyGUI::Widget* sender);
 
-    void OnSelectLevelClick(MyGUI::Widget* sender);
+    void onSelectLevelClick(MyGUI::Widget* sender);
 
 private:
-    GuiButton* mOptionButton;
-    GuiButton* mSelectLevelButton;
+    std::shared_ptr<GuiButton> mOptionButton;
+    std::shared_ptr<GuiButton> mSelectLevelButton;
 };
 
 #endif

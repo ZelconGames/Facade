@@ -14,15 +14,15 @@
 class ConfigurationManager : boost::noncopyable
 {
 public:
-    static ConfigurationManager* GetInstance();
+    static ConfigurationManager* getInstance();
 
     bool LoadConfig();
 
     bool SaveConfig() const;
 
-    KeySettings GetKeySettings() const;
+    KeySettings getKeySettings() const;
 
-    void SetKeySettings(KeySettings key_settings);
+    void setKeySettings(KeySettings key_settings);
 
 private:
     void _LoadKeySettings(const QDomElement& element);

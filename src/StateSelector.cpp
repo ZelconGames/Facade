@@ -16,14 +16,14 @@ StateSelector::~StateSelector()
 {
 }
 
-StateSelector* StateSelector::GetInstance()
+StateSelector* StateSelector::getInstance()
 {
     return mInstance.get();
 }
 
 bool StateSelector::Select(const StateCode& state_code)
 {
-    auto stateMgr = dt::StateManager::Get();
+    auto stateMgr = dt::StateManager::get();
     dt::State* state = nullptr;
 
     switch(state_code)
@@ -41,11 +41,11 @@ bool StateSelector::Select(const StateCode& state_code)
         return false;
     }
 
-    if(stateMgr->GetCurrentState())
+    if(stateMgr->getCurrentState())
     {
-        stateMgr->Pop();
+        stateMgr->pop();
     }
-    stateMgr->SetNewState(state);
+    stateMgr->setNewState(state);
 
     return true;
 }

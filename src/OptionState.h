@@ -14,14 +14,14 @@ class OptionState : public State
 {
     Q_OBJECT
 public:
-    void OnInitialize();
+    void onInitialize();
 
-    void UpdateStateFrame(double simulationFrameTime);
+    void updateStateFrame(double simulationFrameTime);
 
-    void OnReturnClick(MyGUI::Widget* sender);
+    void onReturnClick(MyGUI::Widget* sender);
 
 private:
-    GuiButton* mReturnButton;
+    std::shared_ptr<GuiButton> mReturnButton;
 };
 
 #endif

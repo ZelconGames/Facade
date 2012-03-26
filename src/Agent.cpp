@@ -9,7 +9,7 @@ bool Agent::IsEnabled() const
     return mIsEnabled;
 }
 
-void Agent::SetEnabled(bool is_enabled)
+void Agent::setEnabled(bool is_enabled)
 {
     if(mIsEnabled != is_enabled)
         mIsEnabled = is_enabled;

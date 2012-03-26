@@ -18,7 +18,7 @@ class Agent : public QObject
 public:
     Agent();
 
-    void SetEnabled(bool is_enabled);
+    void setEnabled(bool is_enabled);
 
     virtual bool OnInitialize() = 0;
 
