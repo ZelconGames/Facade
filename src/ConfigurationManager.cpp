@@ -10,7 +10,7 @@ ConfigurationManager::ConfigurationManager()
 {
 }
 
-ConfigurationManager* ConfigurationManager::GetInstance()
+ConfigurationManager* ConfigurationManager::getInstance()
 {
     return mInstance.get();
 }
@@ -23,17 +23,17 @@ bool ConfigurationManager::LoadConfig()
     // If the file doesn't exist...
     if(!config_file.open(QIODevice::ReadOnly))
     {
-        Logger::Get().Info("The configuration file doesn't exist. Trying to create a new one.");
+        Logger::get().info("The configuration file doesn't exist. Trying to create a new one.");
         
         if(!SaveConfig())
         {
-            Logger::Get().Error("Failed to open the configuration file.");
+            Logger::get().error("Failed to open the configuration file.");
 
             return false;
         }
         else
         {
-            Logger::Get().Info("Created a new configuration file.");
+            Logger::get().info("Created a new configuration file.");
 
             return true;
         }
@@ -58,7 +58,7 @@ bool ConfigurationManager::LoadConfig()
     }
     else
     {
-        Logger::Get().Error("Failed to read from the configuration file.");
+        Logger::get().error("Failed to read from the configuration file.");
 
         return false;
     }
@@ -66,12 +66,12 @@ bool ConfigurationManager::LoadConfig()
     return true;
 }
 
-KeySettings ConfigurationManager::GetKeySettings() const
+KeySettings ConfigurationManager::getKeySettings() const
 {
     return mKeySettings;
 }
 
-void ConfigurationManager::SetKeySettings(KeySettings key_settings)
+void ConfigurationManager::setKeySettings(KeySettings key_settings)
 {
     mKeySettings = key_settings;
 }
@@ -83,7 +83,7 @@ bool ConfigurationManager::SaveConfig() const
 
     if(!config_file.open(QIODevice::WriteOnly))
     {
-        Logger::Get().Error("Cannot create the configuration file.");
+        Logger::get().error("Cannot create the configuration file.");
         
         return false;
     }
@@ -113,7 +113,7 @@ void ConfigurationManager::_LoadKeySettings(const QDomElement& element)
         KeySettings::Function function_code = (KeySettings::Function)key_node.attribute(KEY_FUNCTION).toUInt();
         InputManager::InputCode input_code = (InputManager::InputCode)key_node.attribute(KEY_CODE).toUInt();
 
-        mKeySettings.SetKey(function_code, input_code);
+        mKeySettings.setKey(function_code, input_code);
     }
 }
 
@@ -123,10 +123,10 @@ QDomElement ConfigurationManager::_SaveKeySettings(QDomDocument& doc) const
 
     for(unsigned function = (unsigned)mKeySettings.Begin() ; function <= (unsigned)mKeySettings.End() ; ++function)
     {
-        auto element = doc.createElement(mKeySettings.GetName((KeySettings::Function)function));
+        auto element = doc.createElement(mKeySettings.getName((KeySettings::Function)function));
         
         element.setAttribute(KEY_FUNCTION, function);
-        element.setAttribute(KEY_CODE, (unsigned)mKeySettings.GetKey((KeySettings::Function)function));
+        element.setAttribute(KEY_CODE, (unsigned)mKeySettings.getKey((KeySettings::Function)function));
         
         key_settings.appendChild(element);
     }

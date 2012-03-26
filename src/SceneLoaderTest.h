@@ -7,9 +7,9 @@
 class Main : public dt::State {
     Q_OBJECT
 public:
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
-    void SetFile(std::string file);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
+    void setFile(std::string file);
 
 private:
     std::string scenefile;

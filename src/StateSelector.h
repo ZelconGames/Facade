@@ -16,7 +16,7 @@ public:
 
     ~StateSelector();
 
-    static StateSelector* GetInstance();
+    static StateSelector* getInstance();
 
     bool Select(const StateCode& state_code);
 

@@ -19,14 +19,14 @@ Scene* SceneLoader::LoadScene(QString path)
     QDomDocument doc;
     if(!file.open(QIODevice::ReadOnly))
     {
-        dt::Logger::Get().Error("Couldn't open file " + path);
+        dt::Logger::get().error("Couldn't open file " + path);
         return nullptr;
     }
     cout << "Loading result: " << endl;
     if(doc.setContent(&file))
     {
         mScene = new Scene(path);
-        OgreProcedural::Root::getInstance()->sceneManager = mScene->GetSceneManager();
+        OgreProcedural::Root::getInstance()->sceneManager = mScene->getSceneManager();
 
         QDomElement root = doc.documentElement();
 
@@ -49,10 +49,10 @@ Scene* SceneLoader::LoadScene(QString path)
     return mScene;
 }
 
-Node* SceneLoader::_LoadElement(const QDomElement& og_element, Node* dt_node)
+Node::NodeSP SceneLoader::_LoadElement(const QDomElement& og_element, Node::NodeSP dt_node)
 {    
     QString name = og_element.nodeName();
-    Node* node = nullptr;
+    Node::NodeSP node = nullptr;
 
     if(name == SL_LIGHT)
     {
@@ -76,30 +76,30 @@ Node* SceneLoader::_LoadElement(const QDomElement& og_element, Node* dt_node)
     return node;
 }
 
-Node* SceneLoader::_LoadNode(const QDomElement& og_node, Node* dt_parent)
+Node::NodeSP SceneLoader::_LoadNode(const QDomElement& og_node, Node::NodeSP dt_parent)
 {
-    Node* node = nullptr;
+    Node::NodeSP node = nullptr;
 
     if(!og_node.isNull())
     {
-        node = new Node(og_node.attribute(SL_NAME));
+        node = Node::NodeSP(new Node(og_node.attribute(SL_NAME)));
 
         if(dt_parent)
         {
-            dt_parent->AddChildNode(node);
+            dt_parent->addChildNode(node.get());
         } else {
-            mScene->AddChildNode(node);
+            mScene->addChildNode(node.get());
         }
 
         QDomElement pos = og_node.firstChildElement(SL_POS);
         QDomElement rot = og_node.firstChildElement(SL_ROT);
         QDomElement scale = og_node.firstChildElement(SL_SCALE);
 
-        node->SetPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
+        node->setPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
             pos.attribute(SL_Z).toFloat());
-        node->SetRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
+        node->setRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
             rot.attribute(SL_QX).toFloat(), rot.attribute(SL_QY).toFloat(), rot.attribute(SL_QZ).toFloat()));
-        node->SetScale(Ogre::Vector3(scale.attribute(SL_X).toFloat(), scale.attribute(SL_Y).toFloat(),
+        node->setScale(Ogre::Vector3(scale.attribute(SL_X).toFloat(), scale.attribute(SL_Y).toFloat(),
             scale.attribute(SL_Z).toFloat()));
 
         for(QDomElement node_child = scale.nextSiblingElement(); !node_child.isNull(); node_child = node_child.nextSiblingElement())
@@ -111,9 +111,9 @@ Node* SceneLoader::_LoadNode(const QDomElement& og_node, Node* dt_parent)
     return node;
 }
 
-Node* SceneLoader::_LoadCamera(const QDomElement& og_component, Node* dt_node)
+Node::NodeSP SceneLoader::_LoadCamera(const QDomElement& og_component, Node::NodeSP dt_node)
 {
-    Node* node = dt_node;
+    Node::NodeSP node = dt_node;
 
     if(!og_component.isNull())
     {
@@ -121,26 +121,26 @@ Node* SceneLoader::_LoadCamera(const QDomElement& og_component, Node* dt_node)
 
         if(node == nullptr)
         {
-            node = mScene->AddChildNode(new Node(name + "_node"));
+            node = mScene->addChildNode(new Node(name + "_node"));
 
             QDomElement pos = og_component.firstChildElement(SL_POS);
             QDomElement rot = og_component.firstChildElement(SL_ROT);
 
-            node->SetPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
+            node->setPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
                 pos.attribute(SL_Z).toFloat());
-            node->SetRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
+            node->setRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
                 rot.attribute(SL_QX).toFloat(), rot.attribute(SL_QY).toFloat(), rot.attribute(SL_QZ).toFloat()));
         }
 
-        node->AddComponent<CameraComponent>(new CameraComponent(name));
+        node->addComponent<CameraComponent>(new CameraComponent(name));
     }
 
     return node;
 }
 
-Node* SceneLoader::_LoadLight(const QDomElement& og_component, Node* dt_node)
+Node::NodeSP SceneLoader::_LoadLight(const QDomElement& og_component, Node::NodeSP dt_node)
 {
-    Node* node = dt_node;
+    Node::NodeSP node = dt_node;
 
     if(!og_component.isNull())
     {
@@ -148,27 +148,27 @@ Node* SceneLoader::_LoadLight(const QDomElement& og_component, Node* dt_node)
 
         if(node == nullptr)
         {
-            node = mScene->AddChildNode(new Node(name + "_node"));
+            node = mScene->addChildNode(new Node(name + "_node"));
 
             QDomElement pos = og_component.firstChildElement(SL_POS);
             QDomElement dir = og_component.firstChildElement(SL_DIRECTION);
 
-            node->SetPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
+            node->setPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
                 pos.attribute(SL_Z).toFloat());
-            node->SetDirection(Ogre::Vector3(dir.attribute(SL_X).toFloat(), dir.attribute(SL_Y).toFloat(),
+            node->setDirection(Ogre::Vector3(dir.attribute(SL_X).toFloat(), dir.attribute(SL_Y).toFloat(),
                 dir.attribute(SL_Z).toFloat()));
         }
 
-            node->AddComponent<LightComponent>(new LightComponent(name))->SetCastShadows(
+            node->addComponent<LightComponent>(new LightComponent(name))->setCastShadows(
                 og_component.attribute(SL_CAST_SHADOWS).toInt());
     }
 
     return node;
 }
 
-Node* SceneLoader::_LoadMesh(const QDomElement& og_component, Node* dt_node)
+Node::NodeSP SceneLoader::_LoadMesh(const QDomElement& og_component, Node::NodeSP dt_node)
 {
-    Node* node = dt_node;
+    Node::NodeSP node = dt_node;
 
     if(!og_component.isNull())
     {
@@ -176,17 +176,17 @@ Node* SceneLoader::_LoadMesh(const QDomElement& og_component, Node* dt_node)
 
         if(node == nullptr)
         {
-            node = mScene->AddChildNode(new Node(name + "_node"));
+            node = mScene->addChildNode(new Node(name + "_node"));
 
             QDomElement pos = og_component.firstChildElement(SL_POS);
             QDomElement rot = og_component.firstChildElement(SL_ROT);
             QDomElement scale = og_component.firstChildElement(SL_SCALE);
 
-            node->SetPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
+            node->setPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
                 pos.attribute(SL_Z).toFloat());
-            node->SetRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
+            node->setRotation(Ogre::Quaternion(rot.attribute(SL_QW).toFloat(),
                 rot.attribute(SL_QX).toFloat(), rot.attribute(SL_QY).toFloat(), rot.attribute(SL_QZ).toFloat()));
-            node->SetScale(Ogre::Vector3(scale.attribute(SL_X).toFloat(), scale.attribute(SL_Y).toFloat(),
+            node->setScale(Ogre::Vector3(scale.attribute(SL_X).toFloat(), scale.attribute(SL_Y).toFloat(),
                 scale.attribute(SL_Z).toFloat()));
         }        
 
@@ -196,7 +196,7 @@ Node* SceneLoader::_LoadMesh(const QDomElement& og_component, Node* dt_node)
         {
             const QDomElement& entity = unknown_mesh;
 
-            MeshComponent* mesh = node->AddComponent<MeshComponent>(new MeshComponent(
+            std::shared_ptr<MeshComponent> mesh = node->addComponent<MeshComponent>(new MeshComponent(
                 entity.attribute(SL_MESH_HANDLE), "",
                 entity.attribute(SL_NAME)));
 
@@ -205,10 +205,10 @@ Node* SceneLoader::_LoadMesh(const QDomElement& og_component, Node* dt_node)
                 QString material_handle = mat.attribute(SL_MATERIALNAME);
                 uint32_t index = mat.attribute(SL_INDEX).toUInt();
 
-                mesh->GetOgreEntity()->getSubEntity(index)->setMaterialName(material_handle.toStdString());
+                mesh->getOgreEntity()->getSubEntity(index)->setMaterialName(material_handle.toStdString());
             }
 
-            mesh->SetCastShadows(entity.attribute(SL_CAST_SHADOWS).toInt());
+            mesh->setCastShadows(entity.attribute(SL_CAST_SHADOWS).toInt());
         }
         else if(unknown_mesh.nodeName() == SL_PLANE)
         {
@@ -232,7 +232,7 @@ Node* SceneLoader::_LoadMesh(const QDomElement& og_component, Node* dt_node)
                     .realizeMesh(plane.attribute(SL_NAME).toStdString());
 
                 //add entity
-                node->AddComponent<MeshComponent>(new MeshComponent(
+                node->addComponent<MeshComponent>(new MeshComponent(
                     plane.attribute(SL_NAME),
                     plane.attribute(SL_MATERIAL),
                     plane.attribute(SL_NAME)));

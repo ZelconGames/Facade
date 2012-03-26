@@ -12,10 +12,10 @@ int main(int argc, char** argv)
     Game game;
     Main* main = new Main();
     if (argc > 1) {
-        main->SetFile(argv[1]);
+        main->setFile(argv[1]);
     }
 
-    game.Run(main, argc, argv);
+    game.run(main, argc, argv);
 
     return 0;
 }
