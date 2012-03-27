@@ -3,6 +3,8 @@
 #include "Graphics/CameraComponent.hpp"
 #include "Graphics/MeshComponent.hpp"
 #include "Graphics/LightComponent.hpp"
+#include "Audio/SoundComponent.hpp"
+#include "Core/ResourceManager.hpp"
 
 #include <QtXml/QtXml>
 #include <OgreProcedural.h>
@@ -61,6 +63,10 @@ Node::NodeSP SceneLoader::_LoadElement(const QDomElement& og_element, Node::Node
     else if(name == SL_CAMERA)
     {
         node = _LoadCamera(og_element, dt_node);                  //Camera
+    }
+    else if(name == SL_SOUND)
+    {
+        node = _LoadSound(og_element, dt_node);                   //Sound
     }
     else if(name == SL_NODE)
     {
@@ -238,6 +244,31 @@ Node::NodeSP SceneLoader::_LoadMesh(const QDomElement& og_component, Node::NodeS
                     plane.attribute(SL_NAME)));
             }
         }
+    }
+
+    return node;
+}
+
+Node* SceneLoader::_LoadSound(const QDomElement& og_component, Node* dt_node)
+{
+    Node* node = dt_node;
+
+    if(!og_component.isNull())
+    {
+        QString name = og_component.attribute(SL_NAME);
+
+        if(node == nullptr)
+        {
+            node = mScene->AddChildNode(new Node(name + "_node"));
+
+            QDomElement pos = og_component.firstChildElement(SL_POS);
+
+            node->SetPosition(pos.attribute(SL_X).toFloat(), pos.attribute(SL_Y).toFloat(),
+                pos.attribute(SL_Z).toFloat());
+        }
+
+        SoundComponent* s = node->AddComponent<SoundComponent>(new SoundComponent(og_component.attribute(SL_SOUNDNAME), name));
+        s->SetVolume(og_component.attribute(SL_SOUNDVOL).toFloat());
     }
 
     return node;
