@@ -4,34 +4,34 @@
 
 #include <Core/ResourceManager.hpp>
 
-void Main::OnInitialize() 
+void Main::onInitialize()
 {
     {
         QDir dir(QCoreApplication::applicationDirPath());
         while(!dir.isRoot()) {
             QDir data(dir.absolutePath() + "/externals/ducttape-engine");
             if(data.exists()) {
-                ResourceManager::Get()->AddDataPath(data);
+                ResourceManager::get()->addDataPath(data);
 
                 break;
             }
             dir.cdUp();
         }
     }
-    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("","FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     dt::Scene* scene = nullptr;
-    scene = SceneLoader::LoadScene(Utils::ToString(scenefile));
+    scene = SceneLoader::LoadScene(Utils::toString(scenefile));
     if(scene)
-        AddScene(scene);
+        addScene(scene);
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) 
+void Main::updateStateFrame(double simulation_frame_time)
 {
 }
 
-void Main::SetFile(std::string file) {
+void Main::setFile(std::string file) {
     scenefile = file;
-    Logger::Get().Debug("Setting scene file: " + Utils::ToString(scenefile));
+    Logger::get().debug("Setting scene file: " + Utils::toString(scenefile));
 }

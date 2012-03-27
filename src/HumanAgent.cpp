@@ -11,22 +11,22 @@ bool HumanAgent::OnInitialize()
 {
     bool result = true;
 
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
         this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&))))
     {
-            Logger::Get().Error("Failed to connect signal sKeyPressed.");
+            Logger::get().error("Failed to connect signal sKeyPressed.");
             result = false;
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
+    if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
         this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&))))
     {
-            Logger::Get().Error("Failed to connect signal sKeyReleased.");
+            Logger::get().error("Failed to connect signal sKeyReleased.");
             result = false;
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
         this, SLOT(_HandleMouseMove(const OIS::MouseEvent&))))
     {
-            Logger::Get().Error("Failed to connect signal sMouseMoved.");
+            Logger::get().error("Failed to connect signal sMouseMoved.");
             result = false;
     }
 
@@ -39,17 +39,17 @@ bool HumanAgent::OnDeinitialize()
 
     if(!QObject::disconnect(this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&))))
     {
-        Logger::Get().Error("Failed to disconnect signal sKeyPressed.");
+        Logger::get().error("Failed to disconnect signal sKeyPressed.");
         result = false;
     }
     if(!QObject::disconnect(this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&))))
     {
-        Logger::Get().Error("Failed to disconnect signal sKeyReleased.");
+        Logger::get().error("Failed to disconnect signal sKeyReleased.");
         result = false;
     }
     if(!QObject::disconnect(this, SLOT(_HandleMouseMove(const OIS::MouseEvent&))))
     {
-        Logger::Get().Error("Failed to disconnect signal sMouseMoved.");
+        Logger::get().error("Failed to disconnect signal sMouseMoved.");
         result = false;
     }
 
@@ -60,57 +60,57 @@ void HumanAgent::OnUpdate(double time_diff) {}
 
 void HumanAgent::_HandleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event)
 {
-    KeySettings key_settings = ConfigurationManager::GetInstance()->GetKeySettings();
+    KeySettings key_settings = ConfigurationManager::getInstance()->getKeySettings();
 
-    if(input_code == key_settings.GetKey(KeySettings::FORWARD))
+    if(input_code == key_settings.getKey(KeySettings::FORWARD))
     {
         mMove.z -= 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::BACKWARD))
+    else if(input_code == key_settings.getKey(KeySettings::BACKWARD))
     {
         mMove.z += 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::LEFTWARD))
+    else if(input_code == key_settings.getKey(KeySettings::LEFTWARD))
     {
         mMove.x -= 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RIGHTWARD))
+    else if(input_code == key_settings.getKey(KeySettings::RIGHTWARD))
     {
         mMove.x += 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::DUCK))
+    else if(input_code == key_settings.getKey(KeySettings::DUCK))
     {
         emit sDuck(true);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::JUMP))
+    else if(input_code == key_settings.getKey(KeySettings::JUMP))
     {
         emit sJump(true);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::ACTIVATE))
+    else if(input_code == key_settings.getKey(KeySettings::ACTIVATE))
     {
         emit sActivate(true);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RECALL_NANO))
+    else if(input_code == key_settings.getKey(KeySettings::RECALL_NANO))
     {
         emit sRecallNano(true);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RELEASE_NANO))
+    else if(input_code == key_settings.getKey(KeySettings::RELEASE_NANO))
     {
         emit sReleaseNano(true);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::ZOOM))
+    else if(input_code == key_settings.getKey(KeySettings::ZOOM))
     {
         emit sZoom(true);
     }
@@ -118,57 +118,57 @@ void HumanAgent::_HandleButtonDown(dt::InputManager::InputCode input_code, const
 
 void HumanAgent::_HandleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event)
 {
-    KeySettings key_settings = ConfigurationManager::GetInstance()->GetKeySettings();
+    KeySettings key_settings = ConfigurationManager::getInstance()->getKeySettings();
 
-    if(input_code == key_settings.GetKey(KeySettings::FORWARD))
+    if(input_code == key_settings.getKey(KeySettings::FORWARD))
     {
         mMove.z += 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::BACKWARD))
+    else if(input_code == key_settings.getKey(KeySettings::BACKWARD))
     {
         mMove.z -= 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::LEFTWARD))
+    else if(input_code == key_settings.getKey(KeySettings::LEFTWARD))
     {
         mMove.x += 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RIGHTWARD))
+    else if(input_code == key_settings.getKey(KeySettings::RIGHTWARD))
     {
         mMove.x -= 1.0;
         mMove.normalise();
 
         emit sMove(mMove);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::DUCK))
+    else if(input_code == key_settings.getKey(KeySettings::DUCK))
     {
         emit sDuck(false);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::JUMP))
+    else if(input_code == key_settings.getKey(KeySettings::JUMP))
     {
         emit sJump(false);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::ACTIVATE))
+    else if(input_code == key_settings.getKey(KeySettings::ACTIVATE))
     {
         emit sActivate(false);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RECALL_NANO))
+    else if(input_code == key_settings.getKey(KeySettings::RECALL_NANO))
     {
         emit sRecallNano(false);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::RELEASE_NANO))
+    else if(input_code == key_settings.getKey(KeySettings::RELEASE_NANO))
     {
         emit sReleaseNano(false);
     }
-    else if(input_code == key_settings.GetKey(KeySettings::ZOOM))
+    else if(input_code == key_settings.getKey(KeySettings::ZOOM))
     {
         emit sZoom(false);
     }

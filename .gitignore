@@ -1,6 +1,7 @@
 *.bin
 bin/
 media/
+build/
 externals/ducttape-engine/
 *.log
 *.exe

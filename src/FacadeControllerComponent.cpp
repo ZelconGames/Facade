@@ -4,7 +4,7 @@
 #include <Scene/Scene.hpp>
 #include <Physics/PhysicsWorld.hpp>
 
-#include <BtogreGP.h>
+#include <BtOgreGP.h>
 #include <BtOgrePG.h>
 
 FacadeControllerComponent::FacadeControllerComponent(Agent* agent)
@@ -20,8 +20,8 @@ void FacadeControllerComponent::OnInitialize()
 {
     btTransform  start_trans;
     start_trans.setIdentity();
-    start_trans.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
-    start_trans.setRotation(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)));
+    start_trans.setOrigin(BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE)));
+    start_trans.setRotation(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)));
 
     btScalar character_height = 1.75;
     btScalar character_width = 0.44;
@@ -35,8 +35,8 @@ void FacadeControllerComponent::OnInitialize()
     mBtController = std::shared_ptr<btKinematicCharacterController>
         (new btKinematicCharacterController(mBtGhostObject.get(), capsule, 1));
 
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addAction(mBtController.get());
 
     Agent* agent = mAgent.get();
     bool result = true;
@@ -47,18 +47,18 @@ void FacadeControllerComponent::OnInitialize()
         {
             if(!QObject::connect(agent, SIGNAL(sMove(Ogre::Vector3)), this, SLOT(_OnMoveChange(Ogre::Vector3))))
             {
-                Logger::Get().Error("Failed to connect signal sMove.");
+                Logger::get().error("Failed to connect signal sMove.");
                 result = false;
             }
             if(!QObject::connect(agent, SIGNAL(sLook(const Ogre::Radian&, const Ogre::Radian&, const Ogre::Radian&)), 
                                   this, SLOT(_OnLook(const Ogre::Radian&, const Ogre::Radian&, const Ogre::Radian&))))
             {
-                Logger::Get().Error("Failed to connect signal sLook.");
+                Logger::get().error("Failed to connect signal sLook.");
                 result = false;
             }
             if(!QObject::connect(agent, SIGNAL(sJump(bool)), this, SLOT(_OnJump())))
             {
-                Logger::Get().Error("Failed to connect signal sJump.");
+                Logger::get().error("Failed to connect signal sJump.");
                 result = false;
             }
         }
@@ -70,7 +70,7 @@ void FacadeControllerComponent::OnInitialize()
 
     if(!result)
     {
-        Logger::Get().Error(QString("Failed to connect one or more signals for ") + this->GetNode()->GetName() + ".");
+        Logger::get().error(QString("Failed to connect one or more signals for ") + this->getNode()->getName() + ".");
     }
 }
 
@@ -78,16 +78,16 @@ void FacadeControllerComponent::OnEnable()
 {
     btTransform transform;
     transform.setIdentity();
-    transform.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
-    transform.setRotation(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)));
+    transform.setOrigin(BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE)));
+    transform.setRotation(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)));
 
     mBtGhostObject->setWorldTransform(transform);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
 }
 
 void FacadeControllerComponent::OnDisable()
 {
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->removeCollisionObject(mBtGhostObject.get());
 }
 
 void FacadeControllerComponent::OnUpdate(double time_diff)
@@ -96,13 +96,13 @@ void FacadeControllerComponent::OnUpdate(double time_diff)
     static Ogre::Quaternion quaternion;
     static btTransform trans;
 
-    quaternion = Ogre::Quaternion(GetNode()->GetRotation().getYaw(), Ogre::Vector3(0.0, 1.0, 0.0));
+    quaternion = Ogre::Quaternion(getNode()->getRotation().getYaw(), Ogre::Vector3(0.0, 1.0, 0.0));
     move = quaternion * BtOgre::Convert::toOgre(mMove) * mMoveSpeed;
     mBtController->setVelocityForTimeInterval(BtOgre::Convert::toBullet(move), 0.5);
 
     trans = mBtGhostObject->getWorldTransform();
 
-    GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+    getNode()->setPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
 
     mAgent->OnUpdate(time_diff);
 }
@@ -112,32 +112,32 @@ void FacadeControllerComponent::OnDeinitialize()
     mAgent->OnDeinitialize();
 }
 
-void FacadeControllerComponent::SetMoveSpeed(float move_speed)
+void FacadeControllerComponent::setMoveSpeed(float move_speed)
 {
     mMoveSpeed = move_speed;
 }
 
-float FacadeControllerComponent::GetMoveSpeed() const
+float FacadeControllerComponent::getMoveSpeed() const
 {
     return mMoveSpeed;
 }
 
-void FacadeControllerComponent::SetJumpEnabled(bool jump_enabled)
+void FacadeControllerComponent::setJumpEnabled(bool jump_enabled)
 {
     mJumpEnabled = jump_enabled;
 }
 
-bool FacadeControllerComponent::GetJumpEnabled() const
+bool FacadeControllerComponent::getJumpEnabled() const
 {
     return mJumpEnabled;
 }
 
-Agent* FacadeControllerComponent::GetAgent() const
+Agent* FacadeControllerComponent::getAgent() const
 {
     return mAgent.get();
 }
 
-void FacadeControllerComponent::SetAgent(Agent* agent)
+void FacadeControllerComponent::setAgent(Agent* agent)
 {
     mAgent.reset(agent);
 }
@@ -158,7 +158,7 @@ void FacadeControllerComponent::_OnJump()
 void FacadeControllerComponent::_OnLook(const Ogre::Radian& pitch, const Ogre::Radian& yaw, const Ogre::Radian& roll)
 {
     Ogre::Matrix3 orientMatrix;
-    GetNode()->GetRotation().ToRotationMatrix(orientMatrix);
+    getNode()->getRotation().ToRotationMatrix(orientMatrix);
 
     Ogre::Radian old_yaw, old_pitch, old_roll;
     orientMatrix.ToEulerAnglesYXZ(old_yaw, old_pitch, old_roll);
@@ -178,5 +178,5 @@ void FacadeControllerComponent::_OnLook(const Ogre::Radian& pitch, const Ogre::R
 
     Ogre::Quaternion rot;
     rot.FromRotationMatrix(orientMatrix);
-    GetNode()->SetRotation(rot);
+    getNode()->setRotation(rot);
 }

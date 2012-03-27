@@ -38,30 +38,30 @@ public:
       * Sets the speed the player moves at.
       * @param move_speed The maximum speed, in units per second.
       */
-    void SetMoveSpeed(float move_speed);
+    void setMoveSpeed(float move_speed);
 
     /**
       * Gets the speed the player moves at.
       * @returns The player speed, in units per second.
       */
 
-    float GetMoveSpeed() const;
+    float getMoveSpeed() const;
     /**
       * Sets whether the character can jump or not.
       * @param jump_enabled Whether the character can jump or not.
       */
 
-    void SetJumpEnabled(bool jump_enabled);
+    void setJumpEnabled(bool jump_enabled);
 
     /**
       * Gets whether the character can jump or not.
       * @returns Whether the character can jump or not.
       */
-    bool GetJumpEnabled() const;
+    bool getJumpEnabled() const;
 
-    Agent* GetAgent() const;
+    Agent* getAgent() const;
 
-    void SetAgent(Agent* agent);
+    void setAgent(Agent* agent);
 
 private:
     void _OnMoveChange(Ogre::Vector3 direction);

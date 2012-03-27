@@ -10,64 +10,64 @@
 
 #include <QCoreApplication>
 
-void MainMenuState::OnInitialize()
+void MainMenuState::onInitialize()
 {
     {
         QDir dir(QCoreApplication::applicationDirPath());
         while(!dir.isRoot()) {
             QDir data(dir.absolutePath() + "/externals/ducttape-engine");
             if(data.exists()) {
-                ResourceManager::Get()->AddDataPath(data);
+                ResourceManager::get()->addDataPath(data);
 
                 break;
             }
             dir.cdUp();
         }
     }
-    ResourceManager::Get()->AddResourceLocation("data/gui","FileSystem", true);
-    ResourceManager::Get()->AddResourceLocation("data", "FileSystem", true);
+    ResourceManager::get()->addResourceLocation("data/gui","FileSystem", true);
+    ResourceManager::get()->addResourceLocation("data", "FileSystem", true);
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    Scene* scene = AddScene(new Scene("MainMenu"));
+    auto scene = addScene(new Scene("MainMenu"));
 
-    GuiManager::Get()->SetSceneManager(scene->GetSceneManager());
+    GuiManager::get()->setSceneManager(scene->getSceneManager());
 
-    Node* camnode = scene->AddChildNode(new Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 5, 10));
-    camnode->AddComponent(new CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    auto camnode = scene->addChildNode(new Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 5, 10));
+    camnode->addComponent(new CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
+    GuiRootWindow& rootWindow = GuiManager::get()->getRootWindow();
 
     //********************************************************************************
     //The following lines are for test purpose only.
     //Todo: Refine them for actual use.
-    mOptionButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("option"));
-    mOptionButton->SetCaption("Option");
-    mOptionButton->SetSize(250, 100);
-    mOptionButton->SetPosition(100, 100);
-    dynamic_cast<MyGUI::Button*>(mOptionButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &MainMenuState::OnOptionClick);
+    mOptionButton = rootWindow.addChildWidget<GuiButton>(new GuiButton("option"));
+    mOptionButton->setCaption("Option");
+    mOptionButton->setSize(250, 100);
+    mOptionButton->setPosition(100, 100);
+    dynamic_cast<MyGUI::Button*>(mOptionButton->getMyGUIWidget())->eventMouseButtonClick
+        += MyGUI::newDelegate(this, &MainMenuState::onOptionClick);
     
-    mSelectLevelButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("select_level"));
-    mSelectLevelButton->SetCaption("Select Level");
-    mSelectLevelButton->SetSize(250, 100);
-    mSelectLevelButton->SetPosition(100, 220);
-    dynamic_cast<MyGUI::Button*>(mSelectLevelButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &MainMenuState::OnSelectLevelClick);
+    mSelectLevelButton = rootWindow.addChildWidget<GuiButton>(new GuiButton("select_level"));
+    mSelectLevelButton->setCaption("Select Level");
+    mSelectLevelButton->setSize(250, 100);
+    mSelectLevelButton->setPosition(100, 220);
+    dynamic_cast<MyGUI::Button*>(mSelectLevelButton->getMyGUIWidget())->eventMouseButtonClick
+        += MyGUI::newDelegate(this, &MainMenuState::onSelectLevelClick);
     //**********************************************************************************
 }
 
-void MainMenuState::OnSelectLevelClick(MyGUI::Widget* sender)
+void MainMenuState::onSelectLevelClick(MyGUI::Widget* sender)
 {
-    StateSelector::GetInstance()->Select(StateSelector::SELECT_LEVEL);
+    StateSelector::getInstance()->Select(StateSelector::SELECT_LEVEL);
 }
 
-void MainMenuState::OnOptionClick(MyGUI::Widget* sender)
+void MainMenuState::onOptionClick(MyGUI::Widget* sender)
 {
-    StateSelector::GetInstance()->Select(StateSelector::OPTION);
+    StateSelector::getInstance()->Select(StateSelector::OPTION);
 }
 
-void MainMenuState::UpdateStateFrame(double simulationFrameTime)
+void MainMenuState::updateStateFrame(double simulationFrameTime)
 {
 }

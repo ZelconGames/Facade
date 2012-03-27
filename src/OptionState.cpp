@@ -8,49 +8,49 @@
 
 #include <OgreFontManager.h>
 
-void OptionState::OnInitialize()
+void OptionState::onInitialize()
 {
-    ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
-    ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
+    ResourceManager::get()->addResourceLocation("gui","FileSystem", true);
+    ResourceManager::get()->addResourceLocation("", "FileSystem", true);
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    Scene* scene = AddScene(new Scene("Option"));
+    auto scene = addScene(new Scene("Option"));
 
-    Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 0, 10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 0, 10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
     
     //************************************************************
     //The following lines are for test purpose only.
     //Todo: Replace them with the actual content.
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    Node* node1 = scene->AddChildNode(new dt::Node("node1"));
-    dt::TextComponent* text1 = node1->AddComponent(new dt::TextComponent("Option", "text1"));
-    text1->SetBackgroundMaterial("TextOverlayBackground");
-    text1->SetColor(Ogre::ColourValue::White);
-    text1->SetFont("DejaVuSans");
-    text1->SetFontSize(72);
-    text1->SetPadding(Ogre::Vector2(20, 20));
+    auto node1 = scene->addChildNode(new dt::Node("node1"));
+    auto text1 = node1->addComponent(new dt::TextComponent("Option", "text1"));
+    text1->setBackgroundMaterial("TextOverlayBackground");
+    text1->setColor(Ogre::ColourValue::White);
+    text1->setFont("DejaVuSans");
+    text1->setFontSize(72);
+    text1->setPadding(Ogre::Vector2(20, 20));
 
-    GuiRootWindow& rootWindow = GuiManager::Get()->GetRootWindow();
-    mReturnButton = rootWindow.AddChildWidget<GuiButton>(new GuiButton("return"));
+    GuiRootWindow& rootWindow = GuiManager::get()->getRootWindow();
+    mReturnButton = rootWindow.addChildWidget<GuiButton>(new GuiButton("return"));
 
-    mReturnButton->SetPosition(100, 100);
-    mReturnButton->SetSize(250, 100);
-    mReturnButton->SetCaption("Return");
-    mReturnButton->SetVisible(true);
-    dynamic_cast<MyGUI::Button*>(mReturnButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &OptionState::OnReturnClick);
+    mReturnButton->setPosition(100, 100);
+    mReturnButton->setSize(250, 100);
+    mReturnButton->setCaption("Return");
+    mReturnButton->setVisible(true);
+    dynamic_cast<MyGUI::Button*>(mReturnButton->getMyGUIWidget())->eventMouseButtonClick
+        += MyGUI::newDelegate(this, &OptionState::onReturnClick);
     //************************************************************
 }
 
-void OptionState::OnReturnClick(MyGUI::Widget* sender)
+void OptionState::onReturnClick(MyGUI::Widget* sender)
 {
-    StateSelector::GetInstance()->Select(StateSelector::MAIN_MENU);
+    StateSelector::getInstance()->Select(StateSelector::MAIN_MENU);
 }
 
-void OptionState::UpdateStateFrame(double simulationFrameTime)
+void OptionState::updateStateFrame(double simulationFrameTime)
 {
 }

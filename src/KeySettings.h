@@ -27,11 +27,11 @@ public:
 
     KeySettings();
 
-    void SetKey(Function function, InputManager::InputCode key);
+    void setKey(Function function, InputManager::InputCode key);
 
-    InputManager::InputCode GetKey(Function function) const;
+    InputManager::InputCode getKey(Function function) const;
 
-    QString GetName(Function function) const;
+    QString getName(Function function) const;
 
     Function Begin() const;
 
