@@ -7,12 +7,11 @@ For more details, visit http://facade.so
 Cloning
 -------
 If you clone this using the usual `git clone git://github.com/ZelconGames/Facade.git`
-please run `git submodule update --init` as the first thing you do within the 
+run `git submodule update --init` before anything else, within the 
 cloned repo.
 Alternatively, you can just clone with `git clone --recursive git://github.com/ZelconGames/Facade.git`
 and it will do that for you.
-This will get our ducttape external that is in a different git repo to keep this one
-clean and dandy.
+This will get our Ducttape sub-module that is in a different git repo to keep this one tidy.
 
 Building
 --------
@@ -20,4 +19,4 @@ Coming Soon!
 
 Resources
 ---------
-- Ducttape Engine, www.ducttape-dev.org
+- Ducttape Engine, http://ducttape-dev.org
